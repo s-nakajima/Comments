@@ -17,20 +17,6 @@ App::uses('CommentsAppModel', 'Comments.Model');
 class Comment extends CommentsAppModel {
 
 /**
- * start limit
- *
- * @var int
- */
-	const START_LIMIT = 5;
-
-/**
- * max limit
- *
- * @var int
- */
-	const MAX_LIMIT = 100;
-
-/**
  * Validation rules
  *
  * @var array
