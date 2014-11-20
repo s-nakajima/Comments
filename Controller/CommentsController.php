@@ -69,7 +69,11 @@ class CommentsController extends CommentsAppController {
  * @return CakeResponse A response object containing the rendered view.
  */
 	public function index($pluginKey, $contentKey) {
-		$limit = $this::START_LIMIT;
+		if (! isset($this->params['named'])) {
+			$limit = $this::START_LIMIT;
+		} else {
+			$limit = $this::MAX_LIMIT;
+		}
 
 		//コメントデータを取得
 		$this->Paginator->settings = array(
@@ -92,20 +96,18 @@ class CommentsController extends CommentsAppController {
 			'CreatedUser' => array(
 				'conditions' => array(
 					'Comment.created_user = CreatedUser.user_id',
-					'CreatedUser.language_id' => 2, //TODO:
+					//'CreatedUser.language_id' => 2,
 					'CreatedUser.key' => 'nickname'
 				)
 			)
 		);
+
 		$comments = $this->Paginator->paginate('Comment');
-//
-//		$this->set('comments', $comments);
-//		$this->set('limit', $limit);
 
-		//renderの後、$this->Viewが使用可能になる
-		$this->render(false);
+		//$this->Viewを使用可能にする
+		$this->View = $this->_getViewObject();
 
-		$result = array(
+		$results = array(
 			'comments' => array(
 				'data' => $comments,
 				'current' => $this->View->Paginator->current(),
@@ -114,11 +116,7 @@ class CommentsController extends CommentsAppController {
 				'hasNext' => $this->View->Paginator->hasNext(),
 			)
 		);
-//		var_dump($result);
-		$this->set(compact('result'));
-		$this->set('_serialize', 'result');
 
-		$this->layout = false;
-		$this->view = null;
+		$this->renderJson($results);
 	}
 }

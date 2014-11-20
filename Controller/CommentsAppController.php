@@ -9,7 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('AppController', 'Controller');
+//App::uses('AppController', 'Controller');
+App::uses('NetCommonsAppController', 'NetCommons.Controller');
 
 /**
  * CommentsApp Controller
@@ -17,6 +18,6 @@ App::uses('AppController', 'Controller');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Controller
  */
-class CommentsAppController extends AppController {
+class CommentsAppController extends NetCommonsAppController {
 
 }
