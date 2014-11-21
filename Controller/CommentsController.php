@@ -69,10 +69,10 @@ class CommentsController extends CommentsAppController {
  * @return CakeResponse A response object containing the rendered view.
  */
 	public function index($pluginKey, $contentKey) {
-		if (! isset($this->params['named'])) {
-			$limit = $this::START_LIMIT;
+		if (! isset($this->params['named']['page'])) {
+			$limit = self::START_LIMIT;
 		} else {
-			$limit = $this::MAX_LIMIT;
+			$limit = self::MAX_LIMIT;
 		}
 
 		//コメントデータを取得
@@ -110,7 +110,7 @@ class CommentsController extends CommentsAppController {
 		$results = array(
 			'comments' => array(
 				'data' => $comments,
-				'current' => $this->View->Paginator->current(),
+				'current' => ($limit === self::START_LIMIT ? 0 : $this->View->Paginator->current()),
 				'limit' => $limit,
 				'hasPrev' => $this->View->Paginator->hasPrev(),
 				'hasNext' => $this->View->Paginator->hasNext(),
