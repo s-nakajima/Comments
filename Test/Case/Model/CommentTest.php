@@ -59,25 +59,28 @@ class CommentTest extends CakeTestCase {
 		CakeSession::write('Auth.User.id', 1);
 
 		$comment['Comment'] = array(
-			'plugin_key' => 'blocks',
+			'plugin_key' => 'comments',
 			'content_key' => 'content',
 			'comment' => 'testSave',
 		);
 		$result = $this->Comment->save($comment);
-		unset($result['Comment']['created']);
-		unset($result['Comment']['modified']);
 
 		$expected = array(
 			'Comment' => array(
 				'id' => '2',
-				'plugin_key' => 'blocks',
+				'plugin_key' => 'comments',
 				'content_key' => 'content',
 				'comment' => 'testSave',
 				'created_user' => 1,
 				'modified_user' => 1
 			)
 		);
-		$this->assertEquals($expected, $result, 'Error Equals Comment');
+
+		$this->assertArrayHasKey('Comment', $result, print_r($result, true));
+		$this->assertArrayHasKey('id', $result['Comment'], print_r($result, true));
+		$this->assertArrayHasKey('plugin_key', $result['Comment'], print_r($result, true));
+		$this->assertArrayHasKey('content_key', $result['Comment'], print_r($result, true));
+		$this->assertArrayHasKey('comment', $result['Comment'], print_r($result, true));
 
 		CakeSession::write('Auth.User.id', null);
 	}

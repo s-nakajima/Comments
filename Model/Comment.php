@@ -13,6 +13,9 @@ App::uses('CommentsAppModel', 'Comments.Model');
 
 /**
  * Comment Model
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\Comments\Model
  */
 class Comment extends CommentsAppModel {
 
