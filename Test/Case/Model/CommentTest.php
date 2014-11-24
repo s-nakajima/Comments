@@ -65,17 +65,6 @@ class CommentTest extends CakeTestCase {
 		);
 		$result = $this->Comment->save($comment);
 
-		$expected = array(
-			'Comment' => array(
-				'id' => '2',
-				'plugin_key' => 'comments',
-				'content_key' => 'content',
-				'comment' => 'testSave',
-				'created_user' => 1,
-				'modified_user' => 1
-			)
-		);
-
 		$this->assertArrayHasKey('Comment', $result, print_r($result, true));
 		$this->assertArrayHasKey('id', $result['Comment'], print_r($result, true));
 		$this->assertArrayHasKey('plugin_key', $result['Comment'], print_r($result, true));

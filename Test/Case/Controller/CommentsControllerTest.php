@@ -80,8 +80,6 @@ class CommentsControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndexPaging() {
-
-
 		$view = $this->testAction(
 				'/comments/comments/index/test_plugin/test_contet_paging/page:1',
 				array(
