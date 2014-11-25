@@ -74,7 +74,7 @@ class Comment extends CommentsAppModel {
 			'comment' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
+					'message' => __d('net_commons', 'Please enter comments to the person in charge.'),
 					'required' => true,
 				)
 			),
