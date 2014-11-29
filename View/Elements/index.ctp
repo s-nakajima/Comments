@@ -10,28 +10,7 @@
  */
 ?>
 
-<div class="panel panel-default" ng-show="comments.visibility">
-	<div class="panel-body">
-		<div ng-repeat="comment in comments.data">
-			<div ng-hide="$first"><hr /></div>
-			<div>
-				<a href="" ng-click="showUser(comment.Comment.created_user)">
-					<b>{{comment.CreatedUser.value}}</b>
-				</a>
+<div nc-workflow-index
+	 nc-message-more="<?php echo h(__d('net_commons', 'More')); ?>">
 
-				<small class="text-muted">{{comment.Comment.created}}</small>
-			</div>
-			<div>
-				{{comment.Comment.comment}}
-			</div>
-		</div>
-
-		<hr />
-
-		<button type="button" class="btn btn-default btn-block"
-				ng-show="comments.hasNext"
-				ng-click="comments.get(comments.current + 1)">
-			<?php echo __d('net_commons', 'More'); ?>
-		</button>
-	</div>
 </div>
