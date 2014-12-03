@@ -52,16 +52,6 @@ class CommentsController extends CommentsAppController {
 	);
 
 /**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->allow();
-	}
-
-/**
  * index method
  *
  * @param string $pluginKey comments.plugin_key
