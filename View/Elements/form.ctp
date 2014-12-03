@@ -10,7 +10,7 @@
  */
 ?>
 
-<div nc-workflow-form="<?php echo h($formName); ?>"
+<div nc-workflow-form
 	nc-message-error-required="<?php echo h(__d('net_commons', 'If it is not approved, comment is a required input.')); ?>"
 	nc-message-placeholder="<?php echo h(__d('net_commons', 'Please enter comments to the person in charge.')); ?>"
 	nc-message-placeholder-approved="<?php echo h(__d('net_commons', 'If it is not approved, input required.')); ?>"
