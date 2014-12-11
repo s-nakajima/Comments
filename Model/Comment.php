@@ -101,6 +101,7 @@ class Comment extends CommentsAppModel {
  * validate comment
  *
  * @param array $data received post data
+ * @param array $options validation options
  * @return bool|array True on success, validation errors array on error
  */
 	public function validateByStatus($data, $options) {
