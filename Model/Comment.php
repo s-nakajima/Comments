@@ -96,4 +96,25 @@ class Comment extends CommentsAppModel {
 		$this->data[$this->name]['modified_user'] = CakeSession::read('Auth.User.id');
 		return true;
 	}
+
+/**
+ * validate comment
+ *
+ * @param array $data received post data
+ * @return bool|array True on success, validation errors array on error
+ */
+	public function validateByStatus($data, $options) {
+		//コメントの登録(ステータス 差し戻しのみコメント必須)
+		if ($data[$options['caller']]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
+				$data['Comment']['comment'] !== '') {
+
+			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['caller']));
+			$data['Comment']['content_key'] = $data[$options['caller']]['key'];
+
+			$this->set($data['Comment']);
+			$this->validates();
+		}
+
+		return $this->validationErrors ? $this->validationErrors : true;
+	}
 }
