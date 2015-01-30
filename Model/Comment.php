@@ -26,26 +26,6 @@ class Comment extends CommentsAppModel {
  */
 	public $validate = array();
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'CreatedUser' => array(
-			'className' => 'Users.UserAttributesUser',
-			'foreignKey' => false,
-			'conditions' => array(
-				'Comment.created_user = CreatedUser.user_id',
-				'CreatedUser.key' => 'nickname'
-			),
-			'fields' => array('CreatedUser.key', 'CreatedUser.value'),
-			'order' => ''
-		)
-	);
-
 /**
  * Called during validation operations, before validation. Please note that custom
  * validation rules can be defined in $validate.
@@ -95,6 +75,21 @@ class Comment extends CommentsAppModel {
 		}
 		$this->data[$this->name]['modified_user'] = CakeSession::read('Auth.User.id');
 		return true;
+	}
+
+/**
+ * get content data
+ *
+ * @param array $query Option fields (conditions / fields / joins / limit / offset / order / page / group / callbacks)
+ * @return array
+ */
+	public function getComments($conditions, $limit = 100) {
+		return $this->find('all', array(
+				'conditions' => $conditions,
+				'limit' => $limit,
+				'order' => 'Comment.id DESC',
+			)
+		);
 	}
 
 /**

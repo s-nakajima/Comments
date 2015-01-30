@@ -96,12 +96,14 @@ class CommentsController extends CommentsAppController {
 
 		//$this->Viewを使用可能にする
 		$this->View = $this->_getViewObject();
-
-		$results = array(
-			'comments' => array(
-				'data' => $comments,
-				'current' => ($limit === self::START_LIMIT ? 0 : $this->View->Paginator->current()),
-				'limit' => $limit,
+		/* var_dump($comments); */
+		$results = array_merge($comments, array(
+				/* 'current' => ($limit === self::START_LIMIT ? 0 : $this->View->Paginator->current()), */
+				/* 'limit' => $limit, */
+				/* 'hasPrev' => $this->View->Paginator->hasPrev(), */
+				/* 'hasNext' => $this->View->Paginator->hasNext(), */
+				'pageIndex' => ($limit === self::START_LIMIT ? 0 : $this->View->Paginator->current()),
+				'itemsPerPage' => $limit,
 				'hasPrev' => $this->View->Paginator->hasPrev(),
 				'hasNext' => $this->View->Paginator->hasNext(),
 			)
