@@ -8,14 +8,15 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
-var_dump($comments);
+
+App::uses('CommentsController', 'Comments.Controller');
 ?>
 
+<?php if ($comments): ?>
 <div class="panel panel-default">
-	<div class="panel-body">
-		<?php foreach ($comments as $comment): ?>
-		<div>
-			<div ng-hide="$first"><hr /></div>
+	<div class="panel-body workflow-comments">
+		<?php foreach ($comments as $i => $comment): ?>
+		<div class="comment form-group <?php echo $i >= CommentsController::START_LIMIT ? 'hidden' : '' ?>">
 			<div>
 				<a href="" ng-click="user.showUser(<?php echo $comment['trackableCreator']['id'] ?>)">
 					<b><?php echo $comment['trackableCreator']['username'] ?></b>
@@ -23,24 +24,17 @@ var_dump($comments);
 				<small class="text-muted"><?php echo $comment['comment']['created'] ?></small>
 			</div>
 			<div>
-				<?php echo $comment['comment']['comment'] ?>
+				<?php echo nl2br($comment['comment']['comment']) ?>
 			</div>
 		</div>
 		<?php endforeach ?>
 
-		<hr />
-
-		<button type="button" class="btn btn-default btn-block"
-				ng-show="workflow.comments.hasNext"
-				ng-click="workflow.get(workflow.current + 1)">
-
-			{{messages.more}}
-		</button>
-
+		<div class="form-group">
+			<button type="button" class="btn btn-info btn-block more  <?php echo $i < CommentsController::START_LIMIT ? 'hidden' : '' ?>"
+					ng-click="workflow.more()">
+				<?php echo h(__d('net_commons', 'More')); ?>
+			</button>
+		</div>
 	</div>
 </div>
-
-<div nc-workflow-index
-	 nc-message-more="<?php echo h(__d('net_commons', 'More')); ?>">
-
-</div>
+<?php endif ?>
