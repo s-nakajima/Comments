@@ -27,6 +27,9 @@ class CommentTest extends CakeTestCase {
 	public $fixtures = array(
 		'plugin.comments.comment',
 		'plugin.comments.user_attributes_user',
+		'plugin.m17n.language',
+		'plugin.m17n.languages_page',
+		'plugin.users.user',
 	);
 
 /**
