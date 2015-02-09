@@ -25,6 +25,10 @@ class CommentsControllerTest extends ControllerTestCase {
 		'site_setting',
 		'plugin.comments.comment',
 		'plugin.comments.user_attributes_user',
+		'plugin.m17n.language',
+		'plugin.m17n.languages_page',
+		'plugin.pages.page',
+		'plugin.users.user',
 	);
 
 /**
