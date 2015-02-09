@@ -80,7 +80,8 @@ class Comment extends CommentsAppModel {
 /**
  * get content data
  *
- * @param array $query Option fields (conditions / fields / joins / limit / offset / order / page / group / callbacks)
+ * @param array $conditions conditions
+ * @param int $limit limit
  * @return array
  */
 	public function getComments($conditions, $limit = 100) {
