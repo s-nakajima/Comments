@@ -81,13 +81,11 @@ class Comment extends CommentsAppModel {
  * get content data
  *
  * @param array $conditions conditions
- * @param int $limit limit
  * @return array
  */
-	public function getComments($conditions, $limit = 100) {
+	public function getComments($conditions) {
 		return $this->find('all', array(
 				'conditions' => $conditions,
-				'limit' => $limit,
 				'order' => 'Comment.id DESC',
 			)
 		);
@@ -112,6 +110,6 @@ class Comment extends CommentsAppModel {
 			$this->validates();
 		}
 
-		return $this->validationErrors ? $this->validationErrors : true;
+		return $this->validationErrors ? false : true;
 	}
 }

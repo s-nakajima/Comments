@@ -30,7 +30,7 @@ App::uses('CommentsController', 'Comments.Controller');
 		<?php endforeach ?>
 
 		<div class="form-group">
-			<button type="button" class="btn btn-info btn-block more  <?php echo $i < CommentsController::START_LIMIT ? 'hidden' : '' ?>"
+			<button type="button" class="btn btn-info btn-block more <?php echo $i < CommentsController::START_LIMIT ? 'hidden' : '' ?>"
 					ng-click="workflow.more()">
 				<?php echo h(__d('net_commons', 'More')); ?>
 			</button>
