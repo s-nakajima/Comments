@@ -64,20 +64,6 @@ class Comment extends CommentsAppModel {
 	}
 
 /**
- * before save
- *
- * @param array $options Options passed from Model::save().
- * @return bool True if the operation should continue, false if it should abort
- */
-	public function beforeSave($options = array()) {
-		if (! isset($this->data[$this->name]['id'])) {
-			$this->data[$this->name]['created_user'] = CakeSession::read('Auth.User.id');
-		}
-		$this->data[$this->name]['modified_user'] = CakeSession::read('Auth.User.id');
-		return true;
-	}
-
-/**
  * get content data
  *
  * @param array $conditions conditions
@@ -103,7 +89,8 @@ class Comment extends CommentsAppModel {
 		if ($data[$options['caller']]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
 				$data['Comment']['comment'] !== '') {
 
-			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['caller']));
+			$options['plugin'] = isset($options['plugin']) ? $options['plugin'] : $options['caller'];
+			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['plugin']));
 			$data['Comment']['content_key'] = $data[$options['caller']]['key'];
 
 			$this->set($data['Comment']);

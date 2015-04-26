@@ -46,8 +46,8 @@ class CommentFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'plugin_key' => 'test_plugin',
-			'content_key' => 'test_contet',
-			'comment' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+			'content_key' => 'test_content',
+			'comment' => 'comment data',
 			'created_user' => 1,
 			'created' => '2014-11-19 07:17:01',
 			'modified_user' => 1,

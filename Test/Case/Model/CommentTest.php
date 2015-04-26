@@ -9,7 +9,10 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
+App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 App::uses('Comment', 'Comments.Model');
+App::uses('YACakeTestCase', 'NetCommons.TestSuite');
 
 /**
  * Comment Test Case
@@ -26,7 +29,7 @@ class CommentTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.comment',
-		'plugin.comments.user_attributes_user',
+		//'plugin.comments.user_attributes_user',
 		'plugin.m17n.language',
 		'plugin.m17n.languages_page',
 		'plugin.users.user',
@@ -54,27 +57,39 @@ class CommentTest extends CakeTestCase {
 	}
 
 /**
- * testCreateSave
+ * _assertArray method
  *
- * @return  void
+ * @param array $expected expected data
+ * @param array $result result data
+ * @return void
  */
-	public function testSave() {
-		CakeSession::write('Auth.User.id', 1);
+	protected function _assertArray($expected, $result) {
+		$result = Hash::remove($result, 'created');
+		$result = Hash::remove($result, 'created_user');
+		$result = Hash::remove($result, 'modified');
+		$result = Hash::remove($result, 'modified_user');
+		$result = Hash::remove($result, '{s}.created');
+		$result = Hash::remove($result, '{s}.created_user');
+		$result = Hash::remove($result, '{s}.modified');
+		$result = Hash::remove($result, '{s}.modified_user');
+		$result = Hash::remove($result, '{n}.{s}.created');
+		$result = Hash::remove($result, '{n}.{s}.created_user');
+		$result = Hash::remove($result, '{n}.{s}.modified');
+		$result = Hash::remove($result, '{n}.{s}.modified_user');
+		$result = Hash::remove($result, 'TrackableCreator');
+		$result = Hash::remove($result, 'TrackableUpdater');
+		$result = Hash::remove($result, '{n}.TrackableCreator');
+		$result = Hash::remove($result, '{n}.TrackableUpdater');
 
-		$comment['Comment'] = array(
-			'plugin_key' => 'comments',
-			'content_key' => 'content',
-			'comment' => 'testSave',
-		);
-		$result = $this->Comment->save($comment);
+		$this->assertEquals($expected, $result);
+	}
 
-		$this->assertArrayHasKey('Comment', $result, print_r($result, true));
-		$this->assertArrayHasKey('id', $result['Comment'], print_r($result, true));
-		$this->assertArrayHasKey('plugin_key', $result['Comment'], print_r($result, true));
-		$this->assertArrayHasKey('content_key', $result['Comment'], print_r($result, true));
-		$this->assertArrayHasKey('comment', $result['Comment'], print_r($result, true));
-
-		CakeSession::write('Auth.User.id', null);
+/**
+ * testIndex method
+ *
+ * @return void
+ */
+	public function testIndex() {
 	}
 
 }
