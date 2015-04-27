@@ -44,13 +44,13 @@ class Comment extends CommentsAppModel {
 					'required' => true,
 				)
 			),
-			'content_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
+			//'content_key' => array(
+			//	'notEmpty' => array(
+			//		'rule' => array('notEmpty'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'required' => true,
+			//	)
+			//),
 			'comment' => array(
 				'notEmpty' => array(
 					'rule' => array('notEmpty'),
