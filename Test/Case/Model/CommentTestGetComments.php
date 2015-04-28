@@ -20,11 +20,11 @@ App::uses('CommentTest', 'Comments.Test/Case/Model');
 class CommentTestGetComments extends CommentTest {
 
 /**
- * testCreateSave
+ * Expect to get the comments
  *
  * @return  void
  */
-	public function testGetComments() {
+	public function test() {
 		//テスト実行
 		$conditions = array(
 			'plugin_key' => 'test_plugin',

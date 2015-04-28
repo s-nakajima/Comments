@@ -25,7 +25,7 @@ class CommentTestValidate extends CommentTest {
  *
  * @return  void
  */
-	public function testValidateByStatus() {
+	public function test() {
 		//テストデータ生成
 		$data = array(
 			'TestContet' => array(

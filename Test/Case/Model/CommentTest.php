@@ -89,7 +89,7 @@ class CommentTest extends CakeTestCase {
  *
  * @return void
  */
-	public function testIndex() {
+	public function test() {
 	}
 
 }
