@@ -12,8 +12,21 @@
 App::uses('CommentsController', 'Comments.Controller');
 ?>
 
+<?php
+	$this->Html->script(
+		array(
+			'/net_commons/js/workflow.js',
+			'/comments/js/comments.js'
+		),
+		array(
+			'plugin' => false,
+			'inline' => false
+		)
+	);
+?>
+
 <?php if ($comments): ?>
-	<div class="panel panel-default">
+	<div class="panel panel-default" ng-controller="Comments">
 		<div class="panel-body workflow-comments">
 			<?php foreach ($comments as $i => $comment): ?>
 			<div class="comment form-group <?php echo $i >= CommentsController::START_LIMIT ? 'hidden' : '' ?>">

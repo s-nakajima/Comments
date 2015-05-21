@@ -12,7 +12,7 @@
 
 <div class="row">
 	<div class="col-xs-offset-1 col-xs-11">
-		<div class="form-group has-feedback" ng-class="workflow.input.class()">
+		<div class="form-group has-feedback">
 
 			<label class="control-label" for="CommentComment">
 				<span class="glyphicon glyphicon-comment"></span>
@@ -31,14 +31,11 @@
 			</div>
 		</div>
 
-	<div class="has-error">
-			<?php if ($this->validationErrors['Comment']): ?>
-			<?php foreach ($this->validationErrors['Comment']['comment'] as $message): ?>
-				<div class="help-block">
-					<?php echo $message ?>
-				</div>
-			<?php endforeach ?>
-			<?php endif ?>
-		</div>
+		<?php echo $this->element(
+			'NetCommons.errors', [
+				'errors' => $this->validationErrors,
+				'model' => 'Comment',
+				'field' => 'comment',
+			]) ?>
 	</div>
 </div>
