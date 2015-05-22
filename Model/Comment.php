@@ -101,13 +101,28 @@ class Comment extends CommentsAppModel {
 	}
 
 /**
+ * Delete comments by content key
+ *
+ * @param string $contentKey content key
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function deleteByContentKey($contentKey) {
+		if (! $this->deleteAll(array($this->alias . '.content_key' => $contentKey), false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		return true;
+	}
+
+/**
  * Delete comments by blocks.key
  *
  * @param string $blockKey blocks.key
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function deleteByBlock($blockKey) {
+	public function deleteByBlockKey($blockKey) {
 		if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
 			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 		}

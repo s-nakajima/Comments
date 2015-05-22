@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Case of Comment->deleteByBlock()
+ * Test Case of Comment->deleteByContentKey()
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -12,22 +12,22 @@
 App::uses('CommentTest', 'Comments.Test/Case/Model');
 
 /**
- * Test Case of Comment->deleteByBlock()
+ * Test Case of Comment->deleteByContentKey()
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Test\Case\Model
  */
-class CommentTestCommentTestDeleteByBlock extends CommentTest {
+class CommentTestDeleteByContentKey extends CommentTest {
 
 /**
  * Expect to delete the comments by blocks.key
  *
  * @return  void
  */
-	public function testByBlockKey() {
+	public function testByContentKey() {
 		//テスト実行
-		$blockKey = 'test_block_key';
-		$result = $this->Comment->deleteByBlock($blockKey);
+		$contentKey = 'test_content';
+		$result = $this->Comment->deleteByContentKey($contentKey);
 		$this->assertTrue($result);
 
 		//チェック
@@ -49,7 +49,7 @@ class CommentTestCommentTestDeleteByBlock extends CommentTest {
 	public function testFailOnDeleteAll() {
 		$this->setExpectedException('InternalErrorException');
 
-		$blockKey = 'test_block_key';
+		$contentKey = 'test_content';
 
 		$this->Comment = $this->getMockForModel('Comments.Comment', array('deleteAll'));
 		$this->Comment->expects($this->any())
@@ -57,7 +57,7 @@ class CommentTestCommentTestDeleteByBlock extends CommentTest {
 			->will($this->returnValue(false));
 
 		//実施
-		$this->Comment->deleteByBlock($blockKey);
+		$this->Comment->deleteByContentKey($contentKey);
 	}
 
 }
