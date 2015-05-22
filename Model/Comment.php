@@ -99,4 +99,20 @@ class Comment extends CommentsAppModel {
 
 		return $this->validationErrors ? false : true;
 	}
+
+/**
+ * Delete comments by blocks.key
+ *
+ * @param string $blockKey blocks.key
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function deleteByBlock($blockKey) {
+		if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		return true;
+	}
+
 }

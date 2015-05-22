@@ -37,6 +37,7 @@ class CommentTestGetComments extends CommentTest {
 			'Comment' => array(
 				'id' => '1',
 				'plugin_key' => 'test_plugin',
+				'block_key' => 'test_block_key',
 				'content_key' => 'test_content',
 				'comment' => 'comment data'
 			),
