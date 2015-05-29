@@ -91,7 +91,9 @@ class Comment extends CommentsAppModel {
 
 			$options['plugin'] = isset($options['plugin']) ? $options['plugin'] : $options['caller'];
 			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['plugin']));
-			$data['Comment']['content_key'] = $data[$options['caller']]['key'];
+			if (isset($data[$options['caller']]['key'])) {
+				$data['Comment']['content_key'] = $data[$options['caller']]['key'];
+			}
 
 			$this->set($data['Comment']);
 			$this->validates();

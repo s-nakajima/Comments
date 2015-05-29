@@ -135,4 +135,60 @@ class CommentTestValidate extends CommentTest {
 		$this->assertTextEquals('testcontets', $this->Comment->data['Comment']['plugin_key']);
 	}
 
+/**
+ * Expect Comment->validateByStatus().
+ *   Test case コンテンツキーあり
+ *
+ * @return  void
+ */
+	public function testContentKey() {
+		//テストデータ生成
+		$data = array(
+			'TestContet' => array(
+				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+				'key' => 'test_content'
+			),
+			'Comment' => array(
+				'comment' => 'Add comment',
+			),
+		);
+		$options = array(
+			'plugin' => 'test_plugin',
+			'caller' => 'TestContet'
+		);
+
+		//テスト実行
+		$this->Comment->validateByStatus($data, $options);
+
+		//content_keyに値がセットされている
+		$this->assertTrue(isset($this->Comment->data[$this->Comment->name]['content_key']));
+	}
+
+/**
+ * Expect Comment->validateByStatus().
+ *   Test case コンテンツキーなし
+ *
+ * @return  void
+ */
+	public function testContentKeyEmpty() {
+		//テストデータ生成
+		$data = array(
+			'TestContet' => array(
+				'status' => NetCommonsBlockComponent::STATUS_PUBLISHED,
+			),
+			'Comment' => array(
+				'comment' => 'Add comment',
+			),
+		);
+		$options = array(
+			'plugin' => 'test_plugin',
+			'caller' => 'TestContet'
+		);
+
+		//テスト実行
+		$this->Comment->validateByStatus($data, $options);
+
+		//content_keyがセットされてない
+		$this->assertFalse(isset($this->Comment->data[$this->Comment->name]['content_key']));
+	}
 }
