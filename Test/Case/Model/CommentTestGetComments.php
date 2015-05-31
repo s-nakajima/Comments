@@ -9,7 +9,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('CommentTest', 'Comments.Test/Case/Model');
+App::uses('CommentsModelTestBase', 'Comments.Test/Case/Model');
 
 /**
  * Test Case of Comment->getComments()
@@ -17,7 +17,7 @@ App::uses('CommentTest', 'Comments.Test/Case/Model');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Test\Case\Model
  */
-class CommentTestGetComments extends CommentTest {
+class CommentTestGetComments extends CommentsModelTestBase {
 
 /**
  * Expect to get the comments

@@ -20,7 +20,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Test\Case\Model
  */
-class CommentTest extends CakeTestCase {
+class CommentsModelTestBase extends CakeTestCase {
 
 /**
  * Fixtures
@@ -29,9 +29,8 @@ class CommentTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.comment',
-		//'plugin.comments.user_attributes_user',
 		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
+		'plugin.pages.languages_page',
 		'plugin.users.user',
 	);
 
@@ -82,14 +81,6 @@ class CommentTest extends CakeTestCase {
 		$result = Hash::remove($result, '{n}.TrackableUpdater');
 
 		$this->assertEquals($expected, $result);
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function test() {
 	}
 
 }
