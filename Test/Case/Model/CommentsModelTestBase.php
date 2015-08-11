@@ -29,9 +29,9 @@ class CommentsModelTestBase extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.comment',
-		'plugin.m17n.language',
-		'plugin.pages.languages_page',
-		'plugin.users.user',
+		//'plugin.m17n.language',
+		//'plugin.pages.languages_page',
+		//'plugin.users.user',
 	);
 
 /**
