@@ -20,7 +20,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Test\Case\Model
  */
-class CommentsModelTestBase extends CakeTestCase {
+class CommentsModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
