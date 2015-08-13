@@ -29,9 +29,6 @@ class CommentsModelTestBase extends YACakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.comment',
-		//'plugin.m17n.language',
-		//'plugin.pages.languages_page',
-		//'plugin.users.user',
 	);
 
 /**
