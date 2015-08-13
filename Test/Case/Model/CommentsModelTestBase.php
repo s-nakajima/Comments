@@ -20,7 +20,7 @@ App::uses('YACakeTestCase', 'NetCommons.TestSuite');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Comments\Test\Case\Model
  */
-class CommentsModelTestBase extends CakeTestCase {
+class CommentsModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -29,9 +29,6 @@ class CommentsModelTestBase extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.comments.comment',
-		'plugin.m17n.language',
-		'plugin.pages.languages_page',
-		'plugin.users.user',
 	);
 
 /**
