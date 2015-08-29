@@ -20,222 +20,133 @@ App::uses('ModelBehavior', 'Model');
 class CommentBehavior extends ModelBehavior {
 
 /**
+ * beforeValidate is called before a model is validated, you can use this callback to
+ * add behavior validation rules into a models validate array. Returning false
+ * will allow you to make the validation fail.
+ *
+ * @param Model $model Model using this behavior
+ * @param array $options Options passed from Model::save().
+ * @return mixed False or null will abort the operation. Any other result will continue.
+ * @see Model::save()
+ */
+	public function beforeValidate(Model $model, $options = array()) {
+		if (! isset($model->data['Comment'])) {
+			return true;
+		}
+
+		$model->loadModels(array(
+			'Comment' => 'Comments.Comment',
+		));
+
+		//コメントの登録(ステータス 差し戻しのみコメント必須)
+		if ($model->data[$model->alias]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
+				$model->data['Comment']['comment'] !== '') {
+
+			$model->Comment->set($model->data['Comment']);
+			$model->Comment->validates();
+
+			if ($model->Comment->validationErrors) {
+				$model->validationErrors = Hash::merge($model->validationErrors, $model->Comment->validationErrors);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+/**
+ * afterSave is called after a model is saved.
+ *
+ * @param Model $model Model using this behavior
+ * @param bool $created True if this save created a new record
+ * @param array $options Options passed from Model::save().
+ * @return bool
+ * @throws InternalErrorException
+ * @see Model::save()
+ */
+	public function afterSave(Model $model, $created, $options = array()) {
+		if (! isset($model->data['Comment'])) {
+			return true;
+		}
+
+		$model->loadModels([
+			'Comment' => 'Comments.Comment',
+		]);
+
+		$model->data['Comment']['plugin_key'] = Inflector::underscore($model->plugin);
+		$model->data['Comment']['content_key'] = $model->data[$model->alias]['key'];
+
+		if (! $model->Comment->save($model->data['Comment'], false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		return parent::afterSave($model, $created, $options);
+	}
+
+/**
  * Get Comments data
  *
  * @param Model $model Model using this behavior
- * @param array $conditions conditions
+ * @param string $contentKey Content key
  * @return array
  */
-	public function getComments(Model $model, $conditions = array()) {
+	public function getCommentsByContentKey(Model $model, $contentKey) {
+		$model->Comment = ClassRegistry::init('Comments.Comment');
+
+		if (! $contentKey) {
+			return array();
+		}
+
 		$conditions = array(
-
+			'content_key' => $contentKey,
+			'plugin_key' => Inflector::underscore($model->plugin),
 		);
-		//$model->plugin
+		$comments = $model->Comment->find('all', array(
+			'conditions' => $conditions,
+			'order' => 'Comment.id DESC',
+		));
 
-
-
-//		return $this->find('all', array(
-//				'conditions' => $conditions,
-//				'order' => 'Comment.id DESC',
-//			)
-//		);
+		return $comments;
 	}
 
+/**
+ * Delete comments by content key
+ *
+ * @param Model $model Model using this behavior
+ * @param string $contentKey content key
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function deleteCommentsByContentKey(Model $model, $contentKey) {
+		$model->loadModels(array(
+			'Comment' => 'Comments.Comment',
+		));
 
+		if (! $model->Comment->deleteAll(array($model->Comment->alias . '.content_key' => $contentKey), false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
 
-//
-///**
-// * Save default UserRoleSetting
-// *
-// * @param Model $model Model using this behavior
-// * @param array $data User role data
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function saveDefaultUserRoleSetting(Model $model, $data) {
-//		//UserRoleSettingデフォルトのデータ取得
-//		$userRoleSetting = $model->UserRoleSetting->find('first', array(
-//			'recursive' => -1,
-//			'conditions' => array('role_key' => $data['UserRoleSetting']['origin_role_key'])
-//		));
-//		if (! $userRoleSetting) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		//UserRoleSettingの登録処理
-//		foreach (['id', 'created', 'created_user', 'modified', 'modified_user'] as $field) {
-//			$userRoleSetting = Hash::remove($userRoleSetting, 'UserRoleSetting.' . $field);
-//		}
-//		$userRoleSetting['UserRoleSetting']['role_key'] = $data['UserRoleSetting']['role_key'];
-//		if (! $model->UserRoleSetting->save($userRoleSetting, false)) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		return true;
-//	}
-//
-///**
-// * Save default UserAttributesRole
-// *
-// * @param Model $model Model using this behavior
-// * @param array $data User role data
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function saveDefaultUserAttributesRole(Model $model, $data) {
-//		//UserAttributesRoleデフォルトのデータ取得
-//		$userAttributesRole = $model->UserAttributesRole->find('all', array(
-//			'recursive' => -1,
-//			'conditions' => array('role_key' => $data['UserRoleSetting']['origin_role_key'])
-//		));
-//		if (! $userAttributesRole) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		//UserAttributesRoleの登録処理
-//		foreach (['id', 'created', 'created_user', 'modified', 'modified_user'] as $field) {
-//			$userAttributesRole = Hash::remove($userAttributesRole, '{n}.UserAttributesRole.' . $field);
-//		}
-//		$userAttributesRole = Hash::insert($userAttributesRole, '{n}.UserAttributesRole.role_key', $data['UserRoleSetting']['role_key']);
-//		if (! $model->UserAttributesRole->saveMany($userAttributesRole, array('validate' => false))) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		return true;
-//	}
-//
-///**
-// * Save default PluginsRole
-// *
-// * @param Model $model Model using this behavior
-// * @param array $data User role data
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function saveDefaultPluginsRole(Model $model, $data) {
-//		//PluginsRoleデフォルトのデータ取得
-//		$pluginsRole = $model->PluginsRole->find('all', array(
-//			'recursive' => -1,
-//			'conditions' => array('role_key' => $data['UserRoleSetting']['origin_role_key'])
-//		));
-//		if (! $pluginsRole) {
-//			return true;
-//		}
-//
-//		//PluginsRoleの登録処理
-//		foreach (['id', 'created', 'created_user', 'modified', 'modified_user'] as $field) {
-//			$pluginsRole = Hash::remove($pluginsRole, '{n}.PluginsRole.' . $field);
-//		}
-//		$pluginsRole = Hash::insert($pluginsRole, '{n}.PluginsRole.role_key', $data['UserRoleSetting']['role_key']);
-//		if (! $model->PluginsRole->saveMany($pluginsRole, array('validate' => false))) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		return true;
-//	}
-//
-///**
-// * Save PluginsRole
-// *
-// * @param Model $model Model using this behavior
-// * @param string $roleKey roles.key
-// * @param string $pluginKey plugins.key
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function savePluginsRole(Model $model, $roleKey, $pluginKey) {
-//		$model->loadModels([
-//			'PluginsRole' => 'PluginManager.PluginsRole',
-//		]);
-//
-//		$conditions = array(
-//			'role_key' => $roleKey,
-//			'plugin_key' => $pluginKey
-//		);
-//
-//		//PluginsRoleのデータ取得
-//		$pluginsRole = $model->PluginsRole->find('first', array(
-//			'recursive' => -1,
-//			'conditions' => $conditions
-//		));
-//		if (! $pluginsRole) {
-//			$pluginsRole = $model->PluginsRole->create($conditions);
-//		}
-//
-//		//PluginsRoleの登録処理
-//		if (! $model->PluginsRole->save($conditions, false)) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		return true;
-//	}
-//
-///**
-// * Delete PluginsRole
-// *
-// * @param Model $model Model using this behavior
-// * @param string $roleKey roles.key
-// * @param string $pluginKey plugins.key
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function deletePluginsRole(Model $model, $roleKey, $pluginKey) {
-//		$model->loadModels([
-//			'PluginsRole' => 'PluginManager.PluginsRole',
-//		]);
-//
-//		$conditions = array(
-//			'role_key' => $roleKey,
-//			'plugin_key' => $pluginKey
-//		);
-//
-//		//PluginsRoleの削除処理
-//		if (! $model->PluginsRole->deleteAll($conditions, false)) {
-//			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//		}
-//
-//		return true;
-//	}
-//
-///**
-// * Save default UserAttributesRole
-// *
-// * @param Model $model Model using this behavior
-// * @param array $data User role data
-// * @return bool True on success
-// * @throws InternalErrorException
-// */
-//	public function saveUserAttributesRole(Model $model, $data) {
-//		$model->loadModels([
-//			'UserAttribute' => 'UserAttributes.UserAttribute',
-//			'UserAttributeSetting' => 'UserAttributes.UserAttributeSetting',
-//			'UserAttributesRole' => 'UserRoles.UserAttributesRole'
-//		]);
-//
-//		$userAttributes = $model->UserAttribute->find('all', array(
-//			'recursive' => 0,
-//			'conditions' => array(
-//				'language_id' => Configure::read('Config.languageId')
-//			),
-//		));
-//
-//		foreach ($userAttributes as $userAttribute) {
-//			$params = array(
-//				'role_key' => $data['UserRoleSetting']['role_key'],
-//				'origin_role_key' => $data['UserRoleSetting']['origin_role_key'],
-//				'user_attribute_key' => $userAttribute['UserAttribute']['key'],
-//				'only_administrator' => (bool)$userAttribute['UserAttributeSetting']['only_administrator'],
-//				'is_systemized' => (bool)$userAttribute['UserAttributeSetting']['is_systemized'],
-//				'is_usable_user_manager' => (bool)$data['UserRoleSetting']['is_usable_user_manager']
-//			);
-//
-//			$userAttributeRole = $model->UserAttributesRole->defaultUserAttributeRolePermissions($params);
-//			if (! $model->UserAttributesRole->save($userAttributeRole, array('validate' => false))) {
-//				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-//			}
-//		}
-//
-//		return true;
-//	}
+		return true;
+	}
+
+/**
+ * Delete comments by blocks.key
+ *
+ * @param Model $model Model using this behavior
+ * @param string $blockKey blocks.key
+ * @return bool True on success
+ * @throws InternalErrorException
+ */
+	public function deleteCommentsByBlockKey(Model $model, $blockKey) {
+		$model->loadModels(array(
+			'Comment' => 'Comments.Comment',
+		));
+
+		if (! $model->Comment->deleteAll(array($model->Comment->alias . '.block_key' => $blockKey), false)) {
+			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+		}
+
+		return true;
+	}
 
 }

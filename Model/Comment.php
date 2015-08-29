@@ -20,6 +20,13 @@ App::uses('CommentsAppModel', 'Comments.Model');
 class Comment extends CommentsAppModel {
 
 /**
+ * start limit
+ *
+ * @var int
+ */
+	const START_LIMIT = 5;
+
+/**
  * Validation rules
  *
  * @var array
@@ -37,23 +44,23 @@ class Comment extends CommentsAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = array(
-			'plugin_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
+			//'plugin_key' => array(
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'required' => true,
+			//	)
+			//),
 			//'content_key' => array(
-			//	'notEmpty' => array(
-			//		'rule' => array('notEmpty'),
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
 			//		'message' => __d('net_commons', 'Invalid request.'),
 			//		'required' => true,
 			//	)
 			//),
 			'comment' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'If it is not approved, comment is a required input.'),
 					'required' => true,
 				)
@@ -65,6 +72,7 @@ class Comment extends CommentsAppModel {
 
 /**
  * get content data
+ * 全部Behaviorに変更後削除する
  *
  * @param array $conditions conditions
  * @return array
@@ -79,6 +87,7 @@ class Comment extends CommentsAppModel {
 
 /**
  * validate comment
+ * 全部Behaviorに変更後削除する
  *
  * @param array $data received post data
  * @param array $options validation options
@@ -104,6 +113,7 @@ class Comment extends CommentsAppModel {
 
 /**
  * Delete comments by content key
+ * 全部Behaviorに変更後削除する
  *
  * @param string $contentKey content key
  * @return bool True on success
@@ -119,6 +129,7 @@ class Comment extends CommentsAppModel {
 
 /**
  * Delete comments by blocks.key
+ * 全部Behaviorに変更後削除する
  *
  * @param string $blockKey blocks.key
  * @return bool True on success
