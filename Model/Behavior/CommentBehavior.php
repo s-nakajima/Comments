@@ -12,10 +12,10 @@
 App::uses('ModelBehavior', 'Model');
 
 /**
- * DefaultUserRole Behavior
+ * Comment Behavior
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
- * @package NetCommons\UserRoles\Model\Behavior
+ * @package NetCommons\Comments\Model\Behavior
  */
 class CommentBehavior extends ModelBehavior {
 
