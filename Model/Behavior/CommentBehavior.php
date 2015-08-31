@@ -68,7 +68,7 @@ class CommentBehavior extends ModelBehavior {
  * @see Model::save()
  */
 	public function afterSave(Model $model, $created, $options = array()) {
-		if (! isset($model->data['Comment'])) {
+		if (! isset($model->data['Comment']) || ! $model->data['Comment']['comment']) {
 			return true;
 		}
 

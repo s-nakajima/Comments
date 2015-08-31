@@ -10,7 +10,7 @@
  */
 ?>
 
-<?php if ($comments): ?>
+<?php if (isset($comments) && $comments): ?>
 	<div class="panel panel-default" ng-init="more=false">
 		<div class="panel-body workflow-comments">
 			<?php foreach ($comments as $i => $comment): ?>
