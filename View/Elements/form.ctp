@@ -1,6 +1,6 @@
 <?php
 /**
- * announcements comment form element template
+ * Workflow comment form element template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -17,7 +17,7 @@
 				'class' => 'form-control nc-noresize',
 				'label' => '<span class="glyphicon glyphicon-comment"> </span> ' .
 							__d('net_commons', 'Comments to the person in charge.'),
-				'placeholder' => ($contentPublishable && $contentStatus === NetCommonsBlockComponent::STATUS_APPROVED) ?
+				'placeholder' => ($contentPublishable && $contentStatus === WorkflowComponent::STATUS_APPROVED) ?
 										__d('net_commons', 'If it is not approved, comment is a required input.') : __d('net_commons', 'Please enter comments to the person in charge.'),
 				'rows' => 2,
 			)); ?>

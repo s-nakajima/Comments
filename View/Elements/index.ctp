@@ -16,10 +16,10 @@
 			<?php foreach ($comments as $i => $comment): ?>
 				<div class="comment form-group" ng-show="<?php echo $i >= Comment::START_LIMIT ? 'more' : 'true' ?>">
 					<div>
-						<a href="" ng-click="user.showUser(<?php echo $comment['TrackableCreator']['id'] ?>)">
-							<b><?php echo $comment['TrackableCreator']['handlename'] ?></b>
+						<a href="" ng-click="user.showUser(<?php echo $comment['TrackableCreator']['id']; ?>)">
+							<b><?php echo h($comment['TrackableCreator']['handlename']); ?></b>
 						</a>
-						<small class="text-muted"><?php echo $comment['Comment']['created'] ?></small>
+						<small class="text-muted"><?php echo $comment['Comment']['created']; ?></small>
 					</div>
 					<div>
 						<?php echo nl2br(h($comment['Comment']['comment'])) ?>

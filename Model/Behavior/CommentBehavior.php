@@ -42,7 +42,7 @@ class CommentBehavior extends ModelBehavior {
 		if (! isset($model->data[$model->alias]['status'])) {
 			$model->data[$model->alias]['status'] = null;
 		}
-		if ($model->data[$model->alias]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
+		if ($model->data[$model->alias]['status'] === WorkflowComponent::STATUS_DISAPPROVED ||
 				$model->data['Comment']['comment'] !== '') {
 
 			$model->Comment->set($model->data['Comment']);

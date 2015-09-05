@@ -86,61 +86,61 @@ class Comment extends CommentsAppModel {
 	}
 
 /**
+ * 後で削除
  * validate comment
- * 全部Behaviorに変更後削除する
  *
  * @param array $data received post data
  * @param array $options validation options
  * @return bool|array True on success, validation errors array on error
  */
-	public function validateByStatus($data, $options) {
-		//コメントの登録(ステータス 差し戻しのみコメント必須)
-		if ($data[$options['caller']]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
-				$data['Comment']['comment'] !== '') {
-
-			$options['plugin'] = isset($options['plugin']) ? $options['plugin'] : $options['caller'];
-			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['plugin']));
-			if (isset($data[$options['caller']]['key'])) {
-				$data['Comment']['content_key'] = $data[$options['caller']]['key'];
-			}
-
-			$this->set($data['Comment']);
-			$this->validates();
-		}
-
-		return $this->validationErrors ? false : true;
-	}
+	//public function validateByStatus($data, $options) {
+	//	//コメントの登録(ステータス 差し戻しのみコメント必須)
+	//	if ($data[$options['caller']]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
+	//			$data['Comment']['comment'] !== '') {
+	//
+	//		$options['plugin'] = isset($options['plugin']) ? $options['plugin'] : $options['caller'];
+	//		$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['plugin']));
+	//		if (isset($data[$options['caller']]['key'])) {
+	//			$data['Comment']['content_key'] = $data[$options['caller']]['key'];
+	//		}
+	//
+	//		$this->set($data['Comment']);
+	//		$this->validates();
+	//	}
+	//
+	//	return $this->validationErrors ? false : true;
+	//}
 
 /**
+ * 後で削除
  * Delete comments by content key
- * 全部Behaviorに変更後削除する
  *
  * @param string $contentKey content key
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function deleteByContentKey($contentKey) {
-		if (! $this->deleteAll(array($this->alias . '.content_key' => $contentKey), false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
+	//public function deleteByContentKey($contentKey) {
+	//	if (! $this->deleteAll(array($this->alias . '.content_key' => $contentKey), false)) {
+	//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+	//	}
+	//
+	//	return true;
+	//}
 
 /**
+ * 後で削除
  * Delete comments by blocks.key
- * 全部Behaviorに変更後削除する
  *
  * @param string $blockKey blocks.key
  * @return bool True on success
  * @throws InternalErrorException
  */
-	public function deleteByBlockKey($blockKey) {
-		if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
+	//public function deleteByBlockKey($blockKey) {
+	//	if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
+	//		throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+	//	}
+	//
+	//	return true;
+	//}
 
 }
