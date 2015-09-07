@@ -71,19 +71,21 @@ class Comment extends CommentsAppModel {
 	}
 
 /**
+ * 後で削除
+ *
  * get content data
  * 全部Behaviorに変更後削除する
  *
  * @param array $conditions conditions
  * @return array
  */
-	public function getComments($conditions) {
-		return $this->find('all', array(
-				'conditions' => $conditions,
-				'order' => 'Comment.id DESC',
-			)
-		);
-	}
+	//public function getComments($conditions) {
+	//	return $this->find('all', array(
+	//			'conditions' => $conditions,
+	//			'order' => 'Comment.id DESC',
+	//		)
+	//	);
+	//}
 
 /**
  * 後で削除
