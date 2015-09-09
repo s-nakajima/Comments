@@ -131,25 +131,4 @@ class CommentBehavior extends ModelBehavior {
 
 		return true;
 	}
-
-/**
- * Delete comments by blocks.key
- *
- * @param Model $model Model using this behavior
- * @param string $blockKey blocks.key
- * @return bool True on success
- * @throws InternalErrorException
- */
-	public function deleteCommentsByBlockKey(Model $model, $blockKey) {
-		$model->loadModels(array(
-			'Comment' => 'Comments.Comment',
-		));
-
-		if (! $model->Comment->deleteAll(array($model->Comment->alias . '.block_key' => $blockKey), false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
-
 }
