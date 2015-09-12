@@ -77,6 +77,7 @@ class CommentBehavior extends ModelBehavior {
 		]);
 
 		$model->data['Comment']['plugin_key'] = Inflector::underscore($model->plugin);
+		$model->data['Comment']['block_key'] = $model->data['Block']['key'];
 		$model->data['Comment']['content_key'] = $model->data[$model->alias]['key'];
 
 		if (! $model->Comment->save($model->data['Comment'], false)) {
