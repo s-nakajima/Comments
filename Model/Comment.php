@@ -20,6 +20,13 @@ App::uses('CommentsAppModel', 'Comments.Model');
 class Comment extends CommentsAppModel {
 
 /**
+ * start limit
+ *
+ * @var int
+ */
+	const START_LIMIT = 5;
+
+/**
  * Validation rules
  *
  * @var array
@@ -37,23 +44,23 @@ class Comment extends CommentsAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = array(
-			'plugin_key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
+			//'plugin_key' => array(
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'required' => true,
+			//	)
+			//),
 			//'content_key' => array(
-			//	'notEmpty' => array(
-			//		'rule' => array('notEmpty'),
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
 			//		'message' => __d('net_commons', 'Invalid request.'),
 			//		'required' => true,
 			//	)
 			//),
 			'comment' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => __d('net_commons', 'If it is not approved, comment is a required input.'),
 					'required' => true,
 				)
@@ -61,75 +68,6 @@ class Comment extends CommentsAppModel {
 		);
 
 		return parent::beforeValidate($options);
-	}
-
-/**
- * get content data
- *
- * @param array $conditions conditions
- * @return array
- */
-	public function getComments($conditions) {
-		return $this->find('all', array(
-				'conditions' => $conditions,
-				'order' => 'Comment.id DESC',
-			)
-		);
-	}
-
-/**
- * validate comment
- *
- * @param array $data received post data
- * @param array $options validation options
- * @return bool|array True on success, validation errors array on error
- */
-	public function validateByStatus($data, $options) {
-		//コメントの登録(ステータス 差し戻しのみコメント必須)
-		if ($data[$options['caller']]['status'] === NetCommonsBlockComponent::STATUS_DISAPPROVED ||
-				$data['Comment']['comment'] !== '') {
-
-			$options['plugin'] = isset($options['plugin']) ? $options['plugin'] : $options['caller'];
-			$data['Comment']['plugin_key'] = strtolower(Inflector::pluralize($options['plugin']));
-			if (isset($data[$options['caller']]['key'])) {
-				$data['Comment']['content_key'] = $data[$options['caller']]['key'];
-			}
-
-			$this->set($data['Comment']);
-			$this->validates();
-		}
-
-		return $this->validationErrors ? false : true;
-	}
-
-/**
- * Delete comments by content key
- *
- * @param string $contentKey content key
- * @return bool True on success
- * @throws InternalErrorException
- */
-	public function deleteByContentKey($contentKey) {
-		if (! $this->deleteAll(array($this->alias . '.content_key' => $contentKey), false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
-	}
-
-/**
- * Delete comments by blocks.key
- *
- * @param string $blockKey blocks.key
- * @return bool True on success
- * @throws InternalErrorException
- */
-	public function deleteByBlockKey($blockKey) {
-		if (! $this->deleteAll(array($this->alias . '.block_key' => $blockKey), false)) {
-			throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-		}
-
-		return true;
 	}
 
 }
