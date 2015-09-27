@@ -46,10 +46,10 @@ class CommentFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'plugin_key' => 'test_plugin',
-			'block_key' => 'test_block_key',
-			'content_key' => 'test_content',
-			'comment' => 'comment data',
+			'plugin_key' => 'comments',
+			'block_key' => 'block_1',
+			'content_key' => 'comment_content_1',
+			'comment' => 'Comment data',
 			'created_user' => 1,
 			'created' => '2014-11-19 07:17:01',
 			'modified_user' => 1,
@@ -66,9 +66,9 @@ class CommentFixture extends CakeTestFixture {
  */
 	public function init() {
 		$default = array(
-			'plugin_key' => 'test_plugin',
-			'block_key' => 'test_block_paging_key',
-			'content_key' => 'test_contet_paging',
+			'plugin_key' => 'comments',
+			'block_key' => 'block_1',
+			'content_key' => 'comment_content_2',
 			'comment' => 'Comment %s',
 			'created_user' => '1',
 			'created' => '2014-10-09 16:07:57',
@@ -78,6 +78,14 @@ class CommentFixture extends CakeTestFixture {
 			$comments['comment'] = sprintf($comments['comment'], $i);
 			$this->records[] = $comments;
 		}
+
+		if (class_exists('NetCommonsCakeTestCase') && NetCommonsCakeTestCase::$plugin) {
+			$records = array_keys($this->records);
+			foreach ($records as $i) {
+				$this->records[$i]['plugin_key'] = NetCommonsCakeTestCase::$plugin;
+			}
+		}
+
 		parent::init();
 	}
 

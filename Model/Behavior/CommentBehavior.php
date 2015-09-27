@@ -43,7 +43,7 @@ class CommentBehavior extends ModelBehavior {
 			$model->data[$model->alias]['status'] = null;
 		}
 		if ($model->data[$model->alias]['status'] === WorkflowComponent::STATUS_DISAPPROVED ||
-				$model->data['Comment']['comment'] !== '') {
+				isset($model->data['Comment']['comment']) && $model->data['Comment']['comment'] !== '') {
 
 			$model->Comment->set($model->data['Comment']);
 			$model->Comment->validates();
