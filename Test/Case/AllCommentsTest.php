@@ -28,9 +28,7 @@ class AllCommentsTest extends CakeTestSuite {
 
 		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
 		$Folder = new Folder($directory);
-		$exceptions = array(
-			'CommentsModelTestBase.php',
-		);
+		$exceptions = array();
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
 			if (substr($file, -4) === '.php') {
